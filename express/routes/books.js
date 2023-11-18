@@ -1,7 +1,10 @@
 import express from 'express'
+import { db } from '../database.js'
+import { ObjectId } from 'mongodb'
 
 export const router = express.Router()
 
+const collectionName = 'books'
 const books = [{
     id: 1,
     title: 'book1'
@@ -15,22 +18,41 @@ const books = [{
     title: 'book3'
 }]
 
-router.get('/', (req, res) => {
-    res.json(books)
+router.get('/', async (req, res) => {
+    const booksdb = await db.collection(collectionName).find().toArray()
+    res.json(booksdb)
 })
 
-router.post('/', (req, res) => {
+
+router.post('/', async (req, res) => {
     const body = req.body
 
-    books.push(body)
+    await db.collection(collectionName).insertOne(body)
 
     res.status(201).json(body)
 })
 
-router.get('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
+    const id = req.params.id
+    const bookdb = await db.collection(collectionName).findOne( { _id: new ObjectId(id) })
+
+    if (!bookdb) {
+        res.status(404).json({})
+        return
+    }
+
+    await db.collection(collectionName).updateOne(
+        { _id: new ObjectId(id) }, 
+        { $set: { title: req.body.title, author: req.body.author }
+    })
+
+    res.status(200).send()
+})
+
+router.get('/:id', async (req, res) => {
     const id = req.params.id
 
-    const book = books.find((book) => book.id == id)
+    const bookdb = await db.collection(collectionName).findOne( { _id: new ObjectId(id) })
 
-    res.status(200).json(book)
+    res.status(200).json(bookdb)
 })

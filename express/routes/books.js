@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
 
     await db.collection(collectionName).insertOne(body)
 
-    res.status(201).json(body)
+    res.status(201).send()
 })
 
 router.put('/:id', async (req, res) => {
@@ -25,7 +25,7 @@ router.put('/:id', async (req, res) => {
     const bookdb = await db.collection(collectionName).findOne( { _id: new ObjectId(id) })
 
     if (!bookdb) {
-        res.status(404).json({})
+        res.status(404).send()
         return
     }
 

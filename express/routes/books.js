@@ -5,18 +5,6 @@ import { ObjectId } from 'mongodb'
 export const router = express.Router()
 
 const collectionName = 'books'
-const books = [{
-    id: 1,
-    title: 'book1'
-},
-{
-    id: 2,
-    title: 'book2'
-}, 
-{
-    id: 3,
-    title: 'book3'
-}]
 
 router.get('/', async (req, res) => {
     const booksdb = await db.collection(collectionName).find().toArray()

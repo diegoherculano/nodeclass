@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "runexpress": "nodemon ./express/index.js",
+    "runexpressmongoose": "nodemon ./expressmongoose/mongoose.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "mongodb": "^6.3.0"
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.1"
   },
   "type": "module",
   "devDependencies": {
